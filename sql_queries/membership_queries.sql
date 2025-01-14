@@ -1,0 +1,1 @@
+# Üyelik tablosuyla ilgili sorgular

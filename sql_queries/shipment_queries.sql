@@ -1,0 +1,1 @@
+# Teslimat tablosuyla ilgili sorgular

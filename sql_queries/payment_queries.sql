@@ -1,0 +1,2 @@
+ # Ödeme tablosuyla ilgili sorgular
+ 

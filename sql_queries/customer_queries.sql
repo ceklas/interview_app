@@ -1,0 +1,1 @@
+# Müşteri tablosuyla ilgili sorgular

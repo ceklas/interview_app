@@ -1,0 +1,4 @@
+# Bağımlılıklar
+flask
+sqlalchemy
+flask-oauthlib

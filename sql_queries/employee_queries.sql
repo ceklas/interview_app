@@ -1,0 +1,1 @@
+# Çalışan tablosuyla ilgili sorgular
