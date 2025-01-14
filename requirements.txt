@@ -2,3 +2,5 @@
 flask
 sqlalchemy
 flask-oauthlib
+psycopg2
+python-dotenv
