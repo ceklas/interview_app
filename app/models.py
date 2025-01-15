@@ -30,7 +30,7 @@ class EmployeeDetails(db.Model):
     emp_designation = db.Column(VARCHAR(40))
     emp_addr = db.Column(VARCHAR(100))
     emp_branch = db.Column(VARCHAR(15))
-    emp_cont_no = db.Column(db.Integer)
+    emp_cont_no = db.Column(db.BigInteger)
 
     # Relationship
     managed_shipments = db.relationship('EmployeeManagesShipment', backref='employee', lazy=True)
@@ -72,7 +72,7 @@ class Customer(db.Model):
     cust_email = db.Column(VARCHAR(50))
     cust_type = db.Column(Enum('Wholesale', 'Retail', 'Internal Goods', name='cust_type_enum'))
     cust_addr = db.Column(VARCHAR(100))
-    cust_cont_no = db.Column(db.Integer)
+    cust_cont_no = db.Column(db.BigInteger)
 
     # Relationship
     shipments = db.relationship('ShipmentDetails', backref='customer', lazy=True)
