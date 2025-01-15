@@ -2,6 +2,7 @@ from app import db, create_app
 from app.models import *  
 from sqlalchemy import inspect
 
+
 app = create_app()
 
 if __name__ == '__main__':
@@ -12,3 +13,4 @@ if __name__ == '__main__':
         print(tables)  # Tabloları listele
 
     app.run(debug=True)
+    

@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from config import Config,TestingConfig
 import os
 from dotenv import load_dotenv
 from app.models import *
@@ -7,19 +8,20 @@ from app.models import *
 # Veritabanı için SQLAlchemy örneği
 #db = SQLAlchemy()
 
-def create_app():
+# Çevresel değişkenleri yüklemek için load_dotenv
+load_dotenv()  # .env dosyasını yükler
+
+def create_app(config_class=Config):
     app = Flask(__name__)
-    #load_dotenv()  # .env dosyasını yükler
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
+    app.config.from_object(config_class)  # Config veya özel config sınıfı kullanılır
+    print("Veritabanı bağlantı URL'si:", app.config['SQLALCHEMY_DATABASE_URI'])
     db.init_app(app)
 
-    # Basit bir rota ekleyelim
-    @app.route('/')
-    def home():
-        return 'Welcome to the Interview App!'
-
     return app
+
+def create_app_with_config(config_class):
+     app = Flask(__name__)
+     app.config.from_object(config_class)  # config_class ile konfigürasyonu yükle
+     db.init_app(app)  # db bağlantısını initialize et
+
+     return app
