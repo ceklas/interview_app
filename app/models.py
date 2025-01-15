@@ -101,3 +101,71 @@ class EmployeeManagesShipment(db.Model):
     employee = db.relationship('EmployeeDetails', backref=db.backref('shipments_managed', lazy=True))
     shipment = db.relationship('ShipmentDetails', backref=db.backref('managed_by_employees', lazy=True))
     status = db.relationship('Status', backref=db.backref('assigned_to_shipments', lazy=True))
+
+    # Location Modeli
+class Location(db.Model):
+    __tablename__ = 'locations'
+    id = db.Column(db.Integer, primary_key=True)
+    city = db.Column(VARCHAR(100), nullable=False)
+    country = db.Column(VARCHAR(100), nullable=False)
+
+    def to_dict(self):
+        return {"id": self.id, "city": self.city, "country": self.country}
+
+# Route Modeli
+class Route(db.Model):
+    __tablename__ = 'routes'
+    id = db.Column(db.Integer, primary_key=True)
+    start_location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=False)
+    end_location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=False)
+    distance = db.Column(db.Integer, nullable=False)
+
+    # Relationships
+    start_location = db.relationship('Location', foreign_keys=[start_location_id], backref='start_routes')
+    end_location = db.relationship('Location', foreign_keys=[end_location_id], backref='end_routes')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "start_location": self.start_location.city,
+            "end_location": self.end_location.city,
+            "distance": self.distance
+        }
+
+# User Modeli (Gönderici, Alıcı, Kurye)
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(VARCHAR(100), nullable=False)
+    user_type = db.Column(VARCHAR(50), nullable=False)  # 'Sender', 'Receiver', 'Courier'
+
+    def to_dict(self):
+        return {"id": self.id, "name": self.name, "user_type": self.user_type}
+
+# Delivery Modeli
+class Delivery(db.Model):
+    __tablename__ = 'deliveries'
+    id = db.Column(db.Integer, primary_key=True)
+    route_id = db.Column(db.Integer, db.ForeignKey('routes.id'), nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    courier_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    status = db.Column(VARCHAR(50), nullable=False)  # 'Completed', 'Cancelled', 'Delayed'
+    estimated_time = db.Column(db.Interval, nullable=False)
+
+    # Relationships
+    route = db.relationship('Route', backref=db.backref('deliveries', lazy=True))
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_deliveries')
+    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_deliveries')
+    courier = db.relationship('User', foreign_keys=[courier_id], backref='managed_deliveries')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "route": self.route.to_dict(),
+            "sender": self.sender.name,
+            "receiver": self.receiver.name,
+            "courier": self.courier.name,
+            "status": self.status,
+            "estimated_time": str(self.estimated_time)
+        }
