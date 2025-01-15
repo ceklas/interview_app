@@ -19,6 +19,9 @@ class Membership(db.Model):
     start_date = db.Column(Date)
     end_date = db.Column(Date)
 
+    # Relationship
+    customers = db.relationship('Customer', backref='membership', lazy=True)
+
 # EmployeeDetails Modeli
 class EmployeeDetails(db.Model):
     __tablename__ = 'employee_details'
@@ -27,7 +30,10 @@ class EmployeeDetails(db.Model):
     emp_designation = db.Column(VARCHAR(40))
     emp_addr = db.Column(VARCHAR(100))
     emp_branch = db.Column(VARCHAR(15))
-    emp_cont_no = db.Column(db.Integer)  
+    emp_cont_no = db.Column(db.Integer)
+
+    # Relationship
+    managed_shipments = db.relationship('EmployeeManagesShipment', backref='employee', lazy=True)
 
 # Status Modeli
 class Status(db.Model):
@@ -36,6 +42,9 @@ class Status(db.Model):
     current_st = db.Column(VARCHAR(15))
     sent_date = db.Column(Date)
     delivery_date = db.Column(Date)
+
+    # Relationship
+    managed_shipments = db.relationship('EmployeeManagesShipment', backref='status', lazy=True)
 
 # ShipmentDetails Modeli
 class ShipmentDetails(db.Model):
@@ -50,6 +59,10 @@ class ShipmentDetails(db.Model):
     sd_addr = db.Column(VARCHAR(100))
     ds_addr = db.Column(VARCHAR(100))
 
+    # Relationship
+    payments = db.relationship('PaymentDetails', backref='shipment', lazy=True)
+    managed_shipments = db.relationship('EmployeeManagesShipment', backref='shipment', lazy=True)
+
 # Customer Modeli
 class Customer(db.Model):
     __tablename__ = 'customer'
@@ -59,7 +72,10 @@ class Customer(db.Model):
     cust_email = db.Column(VARCHAR(50))
     cust_type = db.Column(Enum('Wholesale', 'Retail', 'Internal Goods', name='cust_type_enum'))
     cust_addr = db.Column(VARCHAR(100))
-    cust_cont_no = db.Column(db.Integer)  
+    cust_cont_no = db.Column(db.Integer)
+
+    # Relationship
+    shipments = db.relationship('ShipmentDetails', backref='customer', lazy=True)
 
 # PaymentDetails Modeli
 class PaymentDetails(db.Model):
@@ -68,13 +84,20 @@ class PaymentDetails(db.Model):
     shipment_client_c_id = db.Column(db.Integer, db.ForeignKey('customer.cust_id'))
     shipment_sh_id = db.Column(db.Integer, db.ForeignKey('shipment_details.sd_id'))
     amount = db.Column(db.Integer)
-    payment_status = db.Column(Enum('Paid', 'Not Paid', name='payment_status_enum'))
-    payment_mode = db.Column(Enum('COD', 'Card Payment', name='payment_mode_enum'))
-    payment_date = db.Column(db.Date) 
+    payment_status = db.Column(Enum('PAID', 'NOT PAID', name='payment_status_enum'))
+    payment_mode = db.Column(Enum('COD', 'CARD PAYMENT', name='payment_mode_enum'))
+    payment_date = db.Column(db.Date)
 
 # Employee Manages Shipment Modeli
 class EmployeeManagesShipment(db.Model):
     __tablename__ = 'employee_manages_shipment'
+    
+    # Foreign key sütunları
     employee_e_id = db.Column(db.Integer, db.ForeignKey('employee_details.emp_id'), primary_key=True)
     shipment_sh_id = db.Column(db.Integer, db.ForeignKey('shipment_details.sd_id'), primary_key=True)
     status_sh_id = db.Column(db.Integer, db.ForeignKey('status.sh_id'), primary_key=True)
+
+    # İlişkiler
+    employee = db.relationship('EmployeeDetails', backref=db.backref('shipments_managed', lazy=True))
+    shipment = db.relationship('ShipmentDetails', backref=db.backref('managed_by_employees', lazy=True))
+    status = db.relationship('Status', backref=db.backref('assigned_to_shipments', lazy=True))
