@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Membership, EmployeeDetails, Status, ShipmentDetails, Customer, PaymentDetails, EmployeeManagesShipment, Location, Route, User, Delivery
-
+from .models import *
 admin.site.register(Membership)
 admin.site.register(EmployeeDetails)
 admin.site.register(Status)
@@ -11,4 +10,4 @@ admin.site.register(EmployeeManagesShipment)
 admin.site.register(Location)
 admin.site.register(Route)
 admin.site.register(User)
-admin.site.register(Delivery)
+#admin.site.register(Delivery)
