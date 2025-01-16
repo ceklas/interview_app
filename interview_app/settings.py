@@ -15,7 +15,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',  # Burayı ekleyin
+    'interview_app',
+    'app',  
+    'rest_framework',
+    'drf_yasg',
 ]
 
 # PostgreSQL veritabanı ayarları
@@ -81,3 +84,6 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"  # Üretim ortamında statik dosyaların toplanacağı dizin
+
+# ROOT_URLCONF ayarını ekleyin
+ROOT_URLCONF = 'interview_app.urls'

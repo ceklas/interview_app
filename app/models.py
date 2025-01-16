@@ -129,15 +129,15 @@ class Shipment(models.Model):
 
 # route Modeli
 class Route(models.Model):
-    start_location = models.CharField(max_length=255)  # Location ile ilişki kaldırıldı
-    end_location = models.CharField(max_length=255)  # Location ile ilişki kaldırıldı
+    start_location = models.ForeignKey('Location', on_delete=models.CASCADE, related_name='start_routes')
+    end_location = models.ForeignKey('Location', on_delete=models.CASCADE, related_name='end_routes')
     distance = models.IntegerField()
 
     class Meta:
         db_table = 'route'
 
     def __str__(self):
-        return f"{self.start_location} -> {self.end_location}"
+        return f"{self.start_location.city} -> {self.end_location.city}"
 
 # location Modeli
 class Location(models.Model):
