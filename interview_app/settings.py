@@ -1,12 +1,19 @@
-import os
 from pathlib import Path
-import sys
+import os,sys
+import environ
+
+# .env dosyasını oku
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = ['*']  # Herhangi bir domaini kabul etmesini sağlar. Üretim ortamında burada spesifik domainler olmalıdır.
+# SECRET_KEY'i .env dosyasından al
+SECRET_KEY = env.str('SECRET_KEY')
+
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -23,14 +30,7 @@ INSTALLED_APPS = [
 
 # PostgreSQL veritabanı ayarları
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'interview_app_db',  # Veritabanı adı
-        'USER': 'postgres',  # PostgreSQL kullanıcı adı
-        'PASSWORD': '798798i.',  # PostgreSQL şifresi
-        'HOST': '127.0.0.1',  # Veritabanı sunucu adresi
-        'PORT': '5432',  # PostgreSQL portu
-    }
+    'default': env.db('DATABASE_URL', default='postgres://127.0.0.1:5432/interview_app_db')
 }
 
 # Eğer test çalıştırılıyorsa SQLite bellek içi veritabanı kullan
