@@ -165,3 +165,23 @@ class User(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.user_type})"
+
+# Delivery Modeli (Yeni Eklenen)
+class Delivery(models.Model):
+    STATUS_CHOICES = [
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+        ('delayed', 'Delayed'),
+    ]
+    shipment = models.ForeignKey('Shipment', on_delete=models.CASCADE, related_name='deliveries')
+    route = models.ForeignKey('Route', on_delete=models.CASCADE, related_name='deliveries')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    estimated_time = models.IntegerField(null=True)  # Null yapılabilir
+    actual_delivery_time = models.DateTimeField(null=True, blank=True)
+    delivery_address = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'delivery'
+
+    def __str__(self):
+        return f"Delivery {self.id} - {self.status}"

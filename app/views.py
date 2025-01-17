@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Customer, EmployeeDetails, Shipment, PaymentDetails, ShipmentDetails, EmployeeManagesShipment, Membership, Status, Route, Location, User
-from .serializers import CustomerSerializer, EmployeeDetailsSerializer, ShipmentSerializer, PaymentDetailsSerializer, ShipmentDetailsSerializer, EmployeeManagesShipmentSerializer, MembershipSerializer, StatusSerializer, RouteSerializer, LocationSerializer, UserSerializer
+from .models import Customer, EmployeeDetails, Shipment, PaymentDetails, ShipmentDetails, EmployeeManagesShipment, Membership, Status, Route, Location, User, Delivery
+from .serializers import CustomerSerializer, EmployeeDetailsSerializer, ShipmentSerializer, PaymentDetailsSerializer, ShipmentDetailsSerializer, EmployeeManagesShipmentSerializer, MembershipSerializer, StatusSerializer, RouteSerializer, LocationSerializer, UserSerializer, DeliverySerializer
 from django.http import JsonResponse
 from .utils import execute_sql_query  # SQL sorgusu çalıştırma fonksiyonu import ediliyor
 
@@ -75,3 +75,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class DeliveryViewSet(viewsets.ModelViewSet):
+    queryset = Delivery.objects.all()
+    serializer_class = DeliverySerializer

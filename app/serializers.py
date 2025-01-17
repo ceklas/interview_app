@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Customer, EmployeeDetails, Shipment, PaymentDetails, ShipmentDetails, EmployeeManagesShipment, Membership, Status, Route, Location, User
+from .models import Customer, EmployeeDetails, Shipment, PaymentDetails, ShipmentDetails, EmployeeManagesShipment, Membership, Status, Route, Location, User, Delivery
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,4 +54,9 @@ class LocationSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+        fields = '__all__'
+
+class DeliverySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Delivery
         fields = '__all__'
