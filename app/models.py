@@ -3,7 +3,7 @@ from django.db import models
 # customer Modeli
 class Customer(models.Model):
     cust_id = models.AutoField(primary_key=True)
-    membership_m_id = models.ForeignKey('Membership', on_delete=models.SET_NULL, null=True)
+    membership_m_id = models.ForeignKey('Membership', on_delete=models.SET_NULL, null=True, to_field='m_id')
     cust_name = models.CharField(max_length=30)
     cust_email = models.CharField(max_length=50)
     cust_type = models.CharField(max_length=20, choices=[('Wholesale', 'Wholesale'), ('Retail', 'Retail'), ('Internal Goods', 'Internal Goods')])

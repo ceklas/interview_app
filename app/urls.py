@@ -1,4 +1,3 @@
-# app/urls.py
 from django.urls import path, include  # include'yi burada ekliyoruz
 from rest_framework.routers import DefaultRouter
 from . import views
@@ -33,6 +32,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    path('health/', views.health_check, name='health-check'),  # Health endpoint
     path('api/', include(router.urls)),  # API'ler için URL'ler
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),  # Swagger UI
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc-ui'),  # Redoc UI

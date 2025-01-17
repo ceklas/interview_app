@@ -2,5 +2,5 @@
 from django.urls import path, include
 
 urlpatterns = [
-    path('app/', include('app.urls')),  # 'app' uygulamasının URL'lerini dahil ettik
+    path('', include('app.urls')),  # 'app/' yerine direkt root path'e bağlıyoruz
 ]

@@ -1,6 +1,13 @@
 from rest_framework import viewsets
 from .models import Customer, EmployeeDetails, Shipment, PaymentDetails, ShipmentDetails, EmployeeManagesShipment, Membership, Status, Route, Location, User
 from .serializers import CustomerSerializer, EmployeeDetailsSerializer, ShipmentSerializer, PaymentDetailsSerializer, ShipmentDetailsSerializer, EmployeeManagesShipmentSerializer, MembershipSerializer, StatusSerializer, RouteSerializer, LocationSerializer, UserSerializer
+from django.http import JsonResponse
+
+
+def health_check(request):
+    return JsonResponse({"message": "Hello, World!"})
+
+
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
