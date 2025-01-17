@@ -1,22 +1,23 @@
--- 6. Employee count by designation
-SELECT Designation, COUNT(E_ID) AS employee_count
-FROM Employees
-GROUP BY Designation
+-- 6. Explore employee count based on the designation-wise count of employees' IDs in descending order.
+SELECT emp_designation, COUNT(emp_id) AS employee_count
+FROM employee_details
+GROUP BY emp_designation
 ORDER BY employee_count DESC;
 
--- 7. Branch-wise employee count
-SELECT E_Branch, COUNT(E_ID) AS employee_count
-FROM Employees
-GROUP BY E_Branch
+-- 7. Branch-wise count of employees for efficiency of deliveries in descending order.
+SELECT emp_branch, COUNT(emp_id) AS employee_count
+FROM employee_details
+GROUP BY emp_branch
 ORDER BY employee_count DESC;
 
--- 12. Names and designations of employees in 'NY' branch
-SELECT E_Name, Designation
-FROM Employees
-WHERE E_Branch = 'NY';
+-- 12. Retrieve the names and designations of all employees in the 'NY' E_Branch.
+SELECT emp_name, emp_designation
+FROM employee_details
+WHERE emp_branch = 'NY';
 
--- 20. Current status and delivery date of shipments managed by 'Delivery Boy'
-SELECT Current_Status, Delivery_Date
-FROM Shipments
-JOIN Employees ON Shipments.Managed_By = Employees.E_ID
-WHERE Employees.Designation = 'Delivery Boy';
+-- 20. Retrieve the current status and delivery date of shipments managed by employees with the designation 'Delivery Boy'.
+SELECT shipment_details.sd_status, shipment_details.sd_delivery_date
+FROM shipment_details
+JOIN employee_manages_shipment ON shipment_details.sd_id = employee_manages_shipment.sd_id
+JOIN employee_details ON employee_manages_shipment.emp_id = employee_details.emp_id
+WHERE employee_details.emp_designation = 'Delivery Boy';

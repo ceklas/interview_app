@@ -1,24 +1,29 @@
--- 1. Count the customer base based on customer type
-SELECT C_TYPE, COUNT(*) AS customer_count
-FROM Customers
-GROUP BY C_TYPE
+-- 1. Count the customer base based on customer type to identify current customer preferences and sort them in descending order.
+SELECT cust_type, COUNT(*) AS customer_count
+FROM customer
+GROUP BY cust_type
 ORDER BY customer_count DESC;
 
--- 2. Count the customer base based on their status of payment
-SELECT Payment_Status, COUNT(*) AS customer_count
-FROM Payments
-GROUP BY Payment_Status
+-- 2. Count the customer base based on their status of payment in descending order.
+SELECT payment_status, COUNT(*) AS customer_count
+FROM payment_details
+GROUP BY payment_status
 ORDER BY customer_count DESC;
 
--- 3. Count the customer base based on their payment mode
-SELECT Payment_Mode, COUNT(*) AS customer_count
-FROM Payments
-GROUP BY Payment_Mode
+-- 3. Count the customer base based on their payment mode in descending order of count.
+SELECT payment_mode, COUNT(*) AS customer_count
+FROM payment_details
+GROUP BY payment_mode
 ORDER BY customer_count DESC;
 
--- 9. Average payment amount based on customer type (COD)
-SELECT C_TYPE, AVG(Payment_Amount) AS avg_payment
-FROM Payments
-WHERE Payment_Mode = 'COD'
-GROUP BY C_TYPE
-ORDER BY avg_payment DESC;
+-- 4. Count the customers as per shipment domain in descending order.
+SELECT sd_domain, COUNT(*) AS customer_count
+FROM shipment_details
+GROUP BY sd_domain
+ORDER BY customer_count DESC;
+
+-- 5. Count the customer according to service type in descending order of count.
+SELECT sd_type, COUNT(*) AS customer_count
+FROM shipment_details
+GROUP BY sd_type
+ORDER BY customer_count DESC;

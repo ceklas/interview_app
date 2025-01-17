@@ -1,16 +1,12 @@
--- 8. Customers with membership over 10 years
-SELECT C_ID, M_ID, 
-       DATE_PART('year', AGE(Membership_End, Membership_Start)) AS tenure
-FROM Memberships
-WHERE DATE_PART('year', AGE(Membership_End, Membership_Start)) > 10;
+-- 8. Finding C_ID, M_ID, and tenure for those customers whose membership is over 10 years.
+SELECT customer.cust_id, membership.m_id, EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM membership.start_date) AS tenure
+FROM customer
+JOIN membership ON customer.membership_m_id = membership.m_id
+WHERE EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM membership.start_date) > 10;
 
--- 14. Membership start and end dates for customers with 'Paid' payment status
-SELECT Membership_Start, Membership_End
-FROM Memberships
-WHERE Payment_Status = 'Paid';
-
--- 21. Membership dates for customers with 'Not Delivered' status
-SELECT Membership_Start, Membership_End
-FROM Memberships
-JOIN Shipments ON Memberships.C_ID = Shipments.C_ID
-WHERE Shipments.Current_Status = 'Not Delivered';
+-- 14. Find the membership start and end dates for customers with 'Paid' payment status.
+SELECT customer.cust_id, membership.start_date, membership.end_date
+FROM customer
+JOIN membership ON customer.membership_m_id = membership.m_id
+JOIN payment_details ON payment_details.customer_id = customer.cust_id
+WHERE payment_details.payment_status = 'Paid';

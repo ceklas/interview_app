@@ -1,4 +1,4 @@
-from django.urls import path, include  # include'yi burada ekliyoruz
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 from drf_yasg.views import get_schema_view
@@ -36,4 +36,10 @@ urlpatterns = [
     path('api/', include(router.urls)),  # API'ler için URL'ler
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),  # Swagger UI
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc-ui'),  # Redoc UI
+    # SQL sorguları için özel endpointler
+    path('api/customers/count-by-type/', views.customer_count_by_type, name='customer-count-by-type'),
+    path('api/customers/count-by-payment-status/', views.customer_count_by_payment_status, name='customer-count-by-payment-status'),
+    path('api/customers/count-by-payment-mode/', views.customer_count_by_payment_mode, name='customer-count-by-payment-mode'),
+    path('api/shipments/count-by-domain/', views.shipment_count_by_domain, name='shipment-count-by-domain'),
+    path('api/customers/membership-duration/', views.customer_by_membership_duration, name='customer-membership-duration'),
 ]
